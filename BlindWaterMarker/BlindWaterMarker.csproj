@@ -160,15 +160,18 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.8</Version>
     </PackageReference>
-    <PackageReference Include="OpenCV.Win.Core">
-      <Version>310.6.1</Version>
-    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Tools\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BlindWaterMarker_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenCVBridge\OpenCVBridge.vcxproj">
+      <Project>{77219664-649e-4132-bee8-7156c3a7a6bb}</Project>
+      <Name>OpenCVBridge</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
