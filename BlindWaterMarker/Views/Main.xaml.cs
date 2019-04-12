@@ -4,14 +4,18 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
@@ -40,17 +44,36 @@ namespace BlindWaterMarker.Views
         // 选取图片
         private async Task PickFile()
         {
-            var picker = new Windows.Storage.Pickers.FileOpenPicker();  //新建文件选取器
-            picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
-            picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.PicturesLibrary;
+            var picker = new Windows.Storage.Pickers.FileOpenPicker
+            {
+                ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail,
+                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.PicturesLibrary
+            }; //新建文件选取器
             picker.FileTypeFilter.Add(".jpg");
-            picker.FileTypeFilter.Add(".jpeg");
-            picker.FileTypeFilter.Add(".png");
+            picker.FileTypeFilter.Add(".jpeg"); //联合图像专家组（JPEG）
+            picker.FileTypeFilter.Add(".png"); //便携式网络图形（PNG）
+            picker.FileTypeFilter.Add(".gif"); //图形交换格式（GIF）
+            picker.FileTypeFilter.Add(".tiff"); //标记图像文件格式（TIFF）
+            picker.FileTypeFilter.Add(".bmp"); //位图（BMP）
+            picker.FileTypeFilter.Add(".ico"); //图标（ICO）
 
-            Windows.Storage.StorageFile file = await picker.PickSingleFileAsync();
+            
+
+            // Windows.Storage.StorageFile file = await picker.PickSingleFileAsync();
+            StorageFile file = await picker.PickSingleFileAsync();
+
             if (file != null)
             {
+                IRandomAccessStream stream = await file.OpenReadAsync();
 
+                //<BitmapImage有关文档：https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.imaging.bitmapimage>
+                BitmapImage bitmap = new BitmapImage(); //新建Bitmap图像
+
+                await bitmap.SetSourceAsync(stream);
+
+
+
+                originImage.Source = bitmap;
                 // Application now has read/write access to the picked file
                 this.textBlock.Text = "Picked photo: " + file.Name;
             }

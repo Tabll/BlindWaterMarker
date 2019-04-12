@@ -11,6 +11,7 @@
     <Grid>
         <Button Content="Button" HorizontalAlignment="Center" Click="Button_Click"/>
         <TextBlock x:Name="textBlock" HorizontalAlignment="Center" Margin="0,354,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <Image x:Name="originImage" Source="/Assets/LockScreenLogo.png" HorizontalAlignment="Left" Height="226" Margin="370,0,0,0" VerticalAlignment="Center" Width="250"/>
 
     </Grid>
 </Page>
